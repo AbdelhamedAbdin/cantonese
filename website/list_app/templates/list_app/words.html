@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %} List of words {% endblock %}
+
+{% block body %}
+    <div class="word-page words">
+        <div class="container">
+            <!-- Add Breadcrumbs Navigation Section -->
+            <div class="breads">
+                <h5 class="heading mt-6 leading-7">
+                    <strong>List of words</strong>
+                </h5>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">List of words</li>
+                    </ol>
+                </nav>
+            </div>
+            <hr>
+            <!-- Words Table Section -->
+            <div class="common-words">
+                <p class="mt-6">Below is a list of the 100 most common words (of 637742) in the corpus.</p>
+                <table class="Table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Orthographic Form</th>
+                            <th>Jyutping</th>
+                            <th>POS Tag</th>
+                            <th>Frequency</th>
+                            <th>Percentage</th>
+                            <th>Cumulative %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for orth, pron, tag, freq, percent, cum in context %}
+                            {% if forloop.counter0|add:1 <= 100 %}
+                            <tr>
+                                <td>
+                                    {{ forloop.counter0|add:1 }}
+                                </td>
+                                <td>
+                                    <form method="get">
+                                        <input style="outline: none" class="a-tag" type="submit" name="query" value="{{ orth }}">
+                                        <input hidden name="verb_option" value="{{ tag }}">
+                                        <input hidden name="jyutping" value="{{ pron }}">
+                                    </form>
+                                </td>
+                                <td>
+                                    {{ pron }}
+                                </td>
+                                <td>
+                                    {% if tag == 'Pro' %}
+                                        Pronoun
+                                    {% elif tag == 'Verb' %}
+                                        Verb
+                                    {% elif tag == 'Adv' %}
+                                        Adverb
+                                    {% elif tag == 'SFP' %}
+                                        Sentence-Final Particle
+                                    {% elif tag == 'Cl' %}
+                                        Classifier
+                                    {% elif tag == 'Part' %}
+                                        Particle
+                                    {% elif tag == 'Adj' %}
+                                        Adjective
+                                    {% elif tag == 'Det' %}
+                                        Determiner
+                                    {% elif tag == 'Asp' %}
+                                        Aspect Marker
+                                    {% elif tag == 'Intj' %}
+                                        Interjection
+                                    {% elif tag == 'Num' %}
+                                        Number
+                                    {% elif tag == 'Noun' %}
+                                        Noun
+                                    {% elif tag == 'Prep' %}
+                                        Preposition
+                                    {% elif tag == 'Conj' %}
+                                        Conjunction
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ freq }}
+                                </td>
+                                <td>
+                                    {{ percent|floatformat:2 }} %
+                                </td>
+                                <td>
+                                    {{ cum|floatformat:2 }} %
+                                </td>                                
+                            </tr>
+                            {% endif %}
+                        {% endfor %}                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

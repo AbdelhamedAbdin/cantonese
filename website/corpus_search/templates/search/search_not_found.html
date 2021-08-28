@@ -1,0 +1,22 @@
+<!-- Taping Section -->
+<div class="intro-tap mt-6">
+    <ul class="nav nav-tabs" role="tablist">
+        {% if sentences.count == 0 %}
+        <li class="nav-item">
+            <a class="nav-link active" href="#sentence" role="tab" data-toggle="tab">Sentence ({{ sentences.count }})</a>
+        </li>
+        {% endif %}
+        {% if words.paginator.count %}
+        <li class="nav-item">
+            <a class="nav-link" href="#word" role="tab" data-toggle="tab">Words ({{ words.paginator.count }})</a>
+        </li>
+        {% endif %}
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content mt-6">
+        <div role="tabpanel" class="tab-pane in active" id="sentence">
+            <p>No results were found. Please adjust the search criteria and try again.</p>
+        </div>
+    </div>
+</div>

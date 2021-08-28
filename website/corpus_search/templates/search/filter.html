@@ -1,0 +1,210 @@
+<div class="handle-position">
+    <div class="sticky">
+        <div class="filter">
+            <form id="filter_form" method="get" action="{% url 'search:search' %}">
+                <input type="text" class="form-control" id="query2" name="query" hidden>
+                <select name="formsets_option" class="form-control" hidden>
+                    <option id="formsets_option2" value=""></option>
+                </select>
+                <select name="verb_option" class="form-control" hidden>
+                    <option id="verb_option2" value=""></option>
+                </select>
+              <div class="FilterPanel">
+                <div class="FilterPanelTitle"><strong>Actor</strong></div>
+                <div class="FilterPanelContent">
+                  <div>
+                    <div class="FilterPanelLabel">Name</div>
+                    <div class="mt-1">
+                      <select class="Select" name="actor" onchange="document.getElementById('filt_btn').click()">
+                        <option value="all">Any</option>
+                        {% for actor in filter.actors %}
+                        <option {% if actor.id != actorr.id  %}  {% else %} selected="selected" {% endif %}
+                                value="{% if actor.id != actorr.id  %}{{ actor.id }}{% else %}{{ actor.id }}{% endif %}">
+                            {{ actor.name_en }}/{{ actor.name_zh }} ({{ actor.code }})
+                        </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="FilterPanelLabel">Gender</div>
+                    <div class="mt-1">
+                      <select class="Select" name="gender" onchange="document.getElementById('filt_btn').click()">
+                              <option value="all">Any</option>
+                                {% if genderr == '0' %}
+                              <option value="0" selected>Female</option>
+                                {% else %}
+                                <option value="0">Female</option>
+                                {% endif %}
+
+                                {% if genderr == '1' %}
+                              <option value="1" selected>Male</option>
+                                {% else %}
+                              <option value="1">Male</option>
+                                {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="FilterPanelLabel">Age</div>
+                    <div class="mt-1">
+                      <select class="Select" name="age" onchange="document.getElementById('filt_btn').click()">
+                          <option value="all">Any</option>
+                          {% if agee == '0' %}
+                          <option value="0" selected>Adult</option>
+                          {% else %}
+                          <option value="0">Adult</option>
+                          {% endif %}
+
+                            {% if agee == '1' %}
+                          <option value="1" selected>Child</option>
+                          {% else %}
+                          <option value="1">Child</option>
+                          {% endif %}
+
+                            {% if agee == '2' %}
+                          <option value="2" selected>Teenager</option>
+                          {% else %}
+                          <option value="2">Teenager</option>
+                          {% endif %}
+
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="FilterPanel">
+                  <div class="FilterPanelTitle"><strong>Film</strong></div>
+                  <div class="FilterPanelContent">
+                    <div>
+                      <div class="FilterPanelLabel">Name</div>
+                      <div class="mt-1">
+                        <select class="Select" name="film" onchange="document.getElementById('filt_btn').click()">
+                            <option value="all">Any</option>
+                            {% for film in filter.films %}
+                                <option
+                                  {% if film.id != filmm.id %} {% else %} selected {% endif %}
+                                  value="{% if film.id != filmm.id %}{{ film.id }}{% else %}{{ filmm.id }}{% endif %}">
+                                  {{ film.name_en }}/{{ film.name_zh }} ({{ film.year }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="mt-3">
+                      <div class="FilterPanelLabel">Genre</div>
+                      <div class="mt-1">
+                        <select class="Select" name="genre" onchange="document.getElementById('filt_btn').click()">
+                          <option value="all">Any</option>
+                            {% if genree == '0' %}
+                            <option value="0" selected>Comedy</option>
+                          {% else %}
+                            <option value="0">Comedy</option>
+                          {% endif %}
+
+                            {% if genree == '1' %}
+                            <option value="1" selected>Crime/Horror</option>
+                          {% else %}
+                            <option value="1">Crime/Horror</option>
+                          {% endif %}
+
+                            {% if genree == '2' %}
+                            <option value="2" selected>Drama</option>
+                          {% else %}
+                            <option value="2">Drama</option>
+                          {% endif %}
+
+                        </select>
+                      </div>
+                    </div>
+                    <div class="mt-3">
+                      <div class="FilterPanelLabel">Year</div>
+                      <div class="mt-1">
+                        <div class="flex items-center">
+                          <div class="mr-2 text-right w-12">from</div>
+                          <select class="Select" name="from" onchange="document.getElementById('filt_btn').click()">
+                              <option value="all">Any</option>
+                              {% for year_from in from_to_year %}
+                                <option
+                                  {% if year_from == frommm %} selected {% endif %}
+                                  value="{% if year_from != frommm %}{{ year_from }}{% else %}{{ frommm }}{% endif %}">
+                                  {{ year_from }}
+                                </option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        <div class="flex items-center mt-1">
+                          <div class="mr-2 text-right w-12">to</div>
+                          <select class="Select" name="to" onchange="document.getElementById('filt_btn').click()">
+                              <option value="all">Any</option>
+                              {% for year_to in from_to_year %}
+                                <option
+                                  {% if year_to == tooo %} selected {% endif %}
+                                  value="{% if year_to != tooo %}{{ year_to }}{% else %}{{ tooo }}{% endif %}">
+                                  {{ year_to }}
+                                </option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <input type="submit" id="filt_btn" hidden>
+            </form>
+            <form id="filter_form" method="get" action="{% url 'search:search' %}">
+                <input type="text" class="form-control" id="query2" name="query" hidden>
+                <input type="text" class="form-control" id="query3" name="query" hidden>
+                <select name="formsets_option" class="form-control" hidden>
+                    <option id="formsets_option3" value=""></option>
+                </select>
+                <select name="verb_option" class="form-control" hidden>
+                    <option id="verb_option3" value=""></option>
+                </select>
+                <div class="mt-2">
+                <input class="text-decoration-none" type="submit" id="filt_btn" style="color: #c53030; margin-left: 10px; background-color: transparent; border: none; cursor: pointer" value="Clear Filter">
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $( document ).ready(function() {
+            document.getElementById('query2').value=document.getElementById('search_btn').value;
+            document.getElementById('formsets_option2').value=document.getElementById('formsets_option').value;
+            document.getElementById('formsets_option2').innerText=document.getElementById('formsets_option').options[document.getElementById('formsets_option').selectedIndex].text;
+            document.getElementById('verb_option2').value=document.getElementById('verb_option').value;
+            document.getElementById('verb_option2').innerText=document.getElementById('verb_option').options[document.getElementById('verb_option').selectedIndex].text;
+
+        });
+        $( document ).ready(function() {
+            document.getElementById('query3').value=document.getElementById('search_btn').value;
+            document.getElementById('formsets_option3').value=document.getElementById('formsets_option').value;
+            document.getElementById('formsets_option3').innerText=document.getElementById('formsets_option').options[document.getElementById('formsets_option').selectedIndex].text;
+            document.getElementById('verb_option3').value=document.getElementById('verb_option').value;
+            document.getElementById('verb_option3').innerText=document.getElementById('verb_option').options[document.getElementById('verb_option').selectedIndex].text;
+
+        });
+    </script>
+
+<script type="text/javascript">
+    let text = $("#text-appearance");
+    let filter_form = $("select")
+
+    $(document).ready(function ()
+    {
+
+        {#for (let i = 0; i < filter_form.length; i++)#}
+        {#{#}
+        {#    filter_form[i].on('change', function () {#}
+        {#        console.log("changed data")#}
+        {#    })#}
+        filter_form.on('change', function () {
+            {#text.text(filter_form.val())#}
+            {#console.log(this.value)#}
+        })
+    })
+</script>

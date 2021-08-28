@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %} base {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="{% static 'index/css/style.css' %}" >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <!-- responsive nav -->
+    {% include 'index/nav_responsive.html' %}
+    <!-- regular nav -->
+    {% include 'index/regular_nav.html' %}
+
+    <!-- Page settings for both margin (top, bottom) -->
+    <div class="page-settings">
+        {% block body %}
+
+        {% endblock %}
+    </div>
+
+    <div class="container">
+        <hr>
+    </div>
+    <footer>
+        <div class="copyright text-center">
+            <div class="container">
+                <p>
+                    Copyright © 2021 <a class="text-decoration-none" target="_blank" href="https://www.eduhk.hk/en/">The Education University of Hong Kong</a>. All Rights Reserved.
+                </p>
+                <p>
+                    Principal Investigator: <a class="text-decoration-none" target="_blank" href="https://www.hkseattle.com/">Andy Chin.</a>
+                </p>
+                <p>
+                    Corpus software developed by <a class="text-decoration-none" target="_blank" href="https://www.alistairtweed.com/">Alistair Tweed.</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% load static %}
+    <script src="{% static 'index/js/custom.js' %}" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script>
+        // Add date picker
+        const START_DATE = $('#start_date'), END_DATE = $("#end_date");
+        $.noConflict();
+        jQuery(document).ready(function($) {
+            let date_id = $("#date_id"), start_date = $('#start_date'), end_date = $("#end_date");
+            start_date.datepicker({
+                changeYear: true,
+                changeMonth: true,
+                dateFormat: 'yy-mm-dd'
+            });
+            end_date.datepicker({
+                changeYear: true,
+                changeMonth: true,
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+</body>
+</html>

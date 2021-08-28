@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block title %}  {% endblock %}
+
+{% block body %}
+    <div class="old_version">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="header">
+                        {% load static %}
+                        <img style="max-width: 100%; height: 150px" src="{% static 'index/img/header.jpg' %}">
+                        <div class="sections">
+                            <ul class="list-unstyled">
+                                <li style="background: #DCC792;">
+                                    簡介
+                                </li>
+                                <li style="background: #DCC792;">
+                                    鳴謝
+                                </li>
+                                <li style="background: #DCC792;">
+                                    參考文獻
+                                </li>
+                                <li style="background: #DCC792;">
+                                    進入語料庫
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="body">
+                        <h4 class="text-center "><strong>簡&nbsp;&nbsp;介</strong></h4>
+                        <div class="section">
+                            <p class="mt-3">
+                                過去的粵方言歷時研究主要參考19世紀至20世紀中期的文字材料。部分出現在早期材料的語言特徵，如完成體標記「嘵」(Cheung, 1997, 郭必之和片岡新, 2006)、中性問句的VP-Neg句型(Yue, 2004, Cheung, 2001) 和間接賓語標記「過」和工具標記「畀」(Chin, 2009)等，大多在二十世紀二三十年代後逐漸消失或只散見於個別現代粵方言中。換句話說，二十世紀中期很可能是這些新舊語言特徵交替的時期。如果我們能夠收集相關時期的語料，就可以增加我們對粵語發展的了解。
+                            </p>
+                            <p class="mt-3">
+                                除了從個別發音人收集方言語料之外，很多學者也使用<strong>自然語料</strong>，如香港大學語言學系上世紀九十年代構建的<strong>香港粵語語料庫</strong>(The Hong Kong University Cantonese Corpus (http://www0.hku.hk/hkcancor/) (Luke, 2011)，梁文德和羅心寶構建的The Hong Kong Cantonese Adult Language Corpus (Leung and Law, 2001)。也有學者透過多媒體（如電視劇、電台廣播劇和電影）收集語料(如Chan, 1996, 歐陽偉豪, 2006, 梁仲森, 2005等)。
+                            </p>
+                            <p class="mt-3">
+                                要收集二十世紀中期粵語的語料，我們可以從香港電影出發。香港電影業在五六十年代十分蓬勃，十多年間，生產了一千五百多部電影(鍾寶賢, 2007)，一般稱為「<strong>粵語長片</strong>」。有學者（如劉鎮發和蕭佩珊, 2010, 李雄溪和許子濱, 2005）曾經從粵語長片分析早期粵語的面貌。不過這些研究只根據研究者的興趣而收集和分析個別語言特徵。背後缺乏一個有系統的語料庫。</p>
+                            <p class="mt-3">
+                                基於以上背景，香港教育學院（現為香港教育大學）語言學及現代語言系過去一年構建了一個以香港五六十年代的粵語長片為基礎的語料庫。語料庫共有二十一套電影（其中十四套可供檢索，見下表），每套電影長度約100分鐘，電影中的對白用漢字轉寫，然後進行切詞和校對，每個詞語配有粵語讀音(以香港語言學學會的「粵拼」為基礎)。語料庫共計約<strong>二十萬字</strong>，並提供不同條件（如詞匯、拼音、電影、影星等）的檢索。
+                            </p>
+
+                            <table class="Table">
+                                <thead>
+                                    <tr>
+                                        <th>電影名稱</th>
+                                        <th>年份</th>
+                                        <th>導演</th>
+                                        <th>主要演員</th>
+                                    </tr>
+                                </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>蠶蟲師爺 Wise Guy</td>
+                                        <td>1952</td>
+                                        <td>任護花</td>
+                                        <td>新馬師曾, 梁醒波, 羅艷卿, 羅劍郎</td>
+                                    </tr>
+                                    <tr>
+                                        <td>*契爺艷史 Foster-Daddy's Romantic Affairs</td>
+                                        <td>1952</td><td>潘炳權</td>
+                                        <td>紅線女, 羅劍郎, 小燕飛, 伊秋水, 梁醒波</td>
+                                    </tr>
+                                    <tr>
+                                        <td>*十月芥菜 A Ready Lover</td>
+                                        <td>1952</td>
+                                        <td>梁琛</td>
+                                        <td>鄺山笑, 紫羅蓮, 羅艷卿, 白明</td>
+                                    </tr>
+                                    <tr>
+                                        <td>危樓春曉 In the Face of Demolition</td>
+                                        <td>1953</td>
+                                        <td>李鐵</td>
+                                        <td>張瑛, 吳楚帆, 紫羅蓮, 黃曼梨</td>
+                                    </tr>
+                                    <tr>
+                                        <td>*錯燒龍鳳燭 Wrong Wedding</td>
+                                        <td>1954</td>
+                                        <td>龍圖</td>
+                                        <td>梁醒波, 周坤玲, 鳳凰女, 羅劍郎</td>
+                                    </tr>
+                                    <tr>
+                                        <td>*鴻運喜當頭 As Luck Will Have It</td><td>1955</td><td>胡鵬</td><td>任劍輝, 白雪仙, 梁醒波 , 鳳凰女</td>
+                                    </tr><tr>
+                                    <td>*恨不相逢未嫁時If Only We'd Met When I Was Single</td><td>1955</td><td>蔣偉光</td><td>白雪仙, 胡楓, 江一帆, 白碧</td>
+                                    </tr><tr>
+                                    <td>家和萬事興 A Peaceful Family Will Prosper</td><td>1956</td><td>張瑛</td><td>張瑛, 白燕, 黃曼梨</td>
+                                    </tr><tr>
+                                    <td>捉姦記 Caught in the Act</td><td>1957</td><td>吳回</td><td>張瑛, 夏萍, 嘉玲</td>
+                                    </tr><tr>
+                                    <td>天官賜福 A Gift of Happiness</td><td>1958</td><td>張瑛</td><td>張瑛, 夏萍, 李國維, 李鵬飛</td>
+                                    </tr><tr>
+                                    <td>*難兄難弟 My Intimate Partners</td><td>1960</td><td>秦劍</td><td>謝賢, 南紅, 胡楓, 江雪</td>
+                                    </tr><tr>
+                                    <td>*千方百計搶財神 To Capture the God of Wealth</td><td>1962</td><td>張瑛</td><td>張瑛, 夏萍, 楊茜, 梁醒波, 譚蘭卿</td>
+                                    </tr><tr>
+                                    <td>*小偷捉賊記 Thief Captures Thief</td><td>1962</td><td>楊工良</td><td>林鳳, 胡楓, 鄧寄塵, 李香琴</td>
+                                    </tr><tr>
+                                    <td>咖啡女郎　Coffee Girl</td><td>1963</td><td>胡鵬</td><td>胡楓 , 羅艷卿, 梁醒波, 林丹, 李香琴</td>
+                                    </tr><tr>
+                                    <td>*一后三王 One Queen and Three Kings</td><td>1963</td><td>陳烈品</td><td>雪妮, 夏萍, 張英才, 張清</td>
+                                    </tr><tr>
+                                    <td>綽頭世界 A Gimmicky World</td><td>1963</td><td>莫康時</td><td>林鳳, 胡楓, 林丹, 麥基</td>
+                                    </tr><tr>
+                                    <td>*死亡角之夜 A Deadly Night</td><td>1964</td><td>楚原</td><td>江雪, 謝賢, 姜中平, 羅蘭</td>
+                                    </tr><tr>
+                                    <td>*標準丈夫 The Ideal Husband</td><td>1965</td><td>盧雨岐</td><td>林鳳, 張英才, 李香琴, 鄭君綿</td>
+                                    </tr><tr>
+                                    <td>*化身情人 Lover in Disguise</td><td>1965</td><td>楚原</td><td>南紅, 張英才, 李香琴, 鄭君綿</td>
+                                    </tr><tr>
+                                    <td>*我愛紫羅蘭 Violet Girl</td><td>1966</td><td>楚原</td><td>呂奇, 文蘭, 張清, 李香琴, 梁醒波</td>
+                                    </tr><tr>
+                                    <td>*春色滿璇宮Spring Time in the Jade Hall</td><td>1966</td><td>陳焯生</td><td>林家聲, 南紅, 李香琴, 俞明</td>
+                                    </tr>
+                                    </tbody>
+                            </table>
+                            <p class="mt-3">
+                                我們希望這個語料庫可以補充粵語歷時研究的材料，除了語言學研究，語料也可以用來分析香港社會文化、性別研究等課題。<br>
+        我們歡迎各位專家學者試用這個語料庫，並提供寶貴意見 [ email: <a href="mailto:hkcc@eduhk.hk">hkcc@eduhk.hk</a> ]，讓我們可以改良系統。
+                            </p>
+                            <div style="text-align: right">
+                                香港教育學院語言學及現代語言系
+                                <p>2012.3.17</p>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="section">
+                            <h4 class="text-center"><strong>鳴&nbsp;&nbsp;謝</strong></h4>
+                            <p class="mt-3">本研究由香港教育學院校內研究基金資助(項目名稱：Spoken Corpus Construction and Linguistic Analysis of Mid-20th Century Cantonese, RG41/2010-2011及 A preliminary linguistic analysis of Mid-20th Century Cantonese from a corpus-based approach, RG62/12-13R 項目主持人：錢志安博士)。</p>
+                            <p>顧問：鄒嘉彥教授、梁仲森先生</p>
+                            <p>開發團隊：黃得森先生、黃國燊先生、周嘉寶先生、莊煒霖先生、孫芷盈小姐、吳詠賢小姐</p>
+                            <hr>
+                        </div>
+                        <div class="section">
+                            <h4 class="text-center"><strong>參考文獻</strong></h4>
+                            <p class="mt-3">歐陽偉豪. (2006). 從周星馳對白的舊粵語到動詞後置成份的句法構築. 《香港語言學學會-粵語討論會(WOC-5)：從社會語言學看粵語近代的轉變》. 香港中文大學. 2006.4.29.</p>
+                            <p>鍾寶賢. (2007). 《香港影視業百年》. 香港 : 三聯書店.</p>
+                            <p>郭必之、片岡新. (2006). 早期廣州話完成體標記「嘵」的來源和演變。 《中國文化研究所學報》第46期, 91-116頁。</p>
+                            <p>劉鎮發, 蕭佩珊. (2010). 香港語言變化的探討：透過六十年代粵語電影比較今昔粵語語音. 《第十五屆國際粵方言研討會》. 澳門. 2010.12.13-15.</p>
+                            <p>李雄溪, 許子濱. (2005). 五、六十年代香港粵語電影語言研究——以語氣詞「嗻」、「啫」為例. 《第十屆國際粵方言研討會》. 香港中文大學. 2005.12.12-14.</p>
+                            <p>梁仲森. (2005). 《當代香港粤語語助詞的研究》. 香港：香港城市大學語言資訊科學研究中心.</p>
+                            <p>Chan, Marjorie. (2006). “Gender-marked speech in Cantonese: the case of sentence-final particles je and jek.” Studies in the Linguistic Sciences, 26.1/2: 1-38.</p>
+                            <p>Cheung, Hung-nin Samuel. (1997). “Completing the completive: (Re)constructing early Cantonese grammar”. In Chaofen Sun ed., Studies on the History of Chinese Syntax, Journal of Chinese Linguistics Monograph, Series No.10, pp. 133-165.</p>
+                            <p>Cheung, Hung-nin Samuel. (2001). “The interrogative construction: (Re)constructing early Cantonese grammar”. In H. Chappell, ed., Sinitic Grammar: Synchronic and Diachronic Perspectives. Oxford: Oxford University Press, pp. 191-231.</p>
+                            <p>Chin, Andy Chi-on (錢志安). (2009). The Verb GIVE and the Double-object Construction in Cantonese in Synchronic, Diachronic and Typological Perspectives. PhD dissertation, University of Washington.</p>
+                            <p>Luke, Kang Kwong. (2011). “The Hong Kong Cantonese corpus: Design and uses (香港粵語語料庫的設計和用途)”. Paper presented at the Roundtable Conference on Linguistic Corpus and Corpus Linguistics in the Chinese Context 《漢語語料庫及語料庫語言學圓桌會議》, The Hong Kong Institute of Education, Hong Kong, May 6 – 8 2011.</p>
+                            <p>Yue, Anne. (2004). “Materials for the diachronic study of the Yue dialects”. In Shi Feng and Shen Zhongwei, eds., The Joy of Research: A Festschrift in Honor of Professor William S-Y. Wang on His Seventieth Birthday《樂在其中 - 王士元教授七十華誕慶祝文集》. Nankai: Nankai University, pp. 246-271.</p>
+                            <hr>
+                        </div>
+                        <div style="width: 80%;margin-left: auto;margin-right: auto" class="img-footer">
+                            <img style="max-width: 100%;height: 150px" src="{% static 'index/img/footer.jpg' %}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

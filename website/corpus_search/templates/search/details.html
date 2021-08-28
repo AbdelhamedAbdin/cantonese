@@ -1,0 +1,775 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+
+{% block title %} Search {% endblock %}
+{% block body %}
+    <div class="search Detail">
+        <div class="container">
+            <!-- Add Breadcrumbs Navigation Section -->
+            <div class="breads">
+                <h5 class="heading mt-6 leading-7">
+                    <strong>View Word</strong>
+                </h5>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index:home' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'list_app:words' %}">Words</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">View Word</li>
+                    </ol>
+                </nav>
+            </div>
+            <hr>
+
+            <div class="search-field">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div><span class="text-grey-700">ORTHOGRAPHIC FORM</span>
+                            <p class="word-details">{{ word_details.orth }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <span class="text-grey-700">JYUTPING</span>
+                            <p class="word-details">{{ word_details.pron }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <span class="text-grey-700">POS TAG</span>
+                            <p class="word-details">
+                            {% if word_details.tag == 'Pro' %}
+                                Pronoun
+                            {% elif word_details.tag == 'Verb' %}
+                                Verb
+                            {% elif word_details.tag == 'Adv' %}
+                                Adverb
+                            {% elif word_details.tag == 'SFP' %}
+                                Sentence-Final Particle
+                            {% elif word_details.tag == 'Cl' %}
+                                Classifier
+                            {% elif word_details.tag == 'Part' %}
+                                Particle
+                            {% elif word_details.tag == 'Adj' %}
+                                Adjective
+                            {% elif word_details.tag == 'Det' %}
+                                Determiner
+                            {% elif word_details.tag == 'Asp' %}
+                                Aspect Marker
+                            {% elif word_details.tag == 'Intj' %}
+                                Interjection
+                            {% elif word_details.tag == 'Num' %}
+                                Number
+                            {% elif word_details.tag == 'Noun' %}
+                                Noun
+                            {% elif word_details.tag == 'Prep' %}
+                                Preposition
+                            {% elif word_details.tag == 'Conj' %}
+                                Conjunction
+                            {% elif word_details.tag == "Pu" %}
+                                Punctuation
+                            {% else %}
+                                {{ word_details.tag }}
+                            {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <span class="text-grey-700">FREQUENCY</span>
+                            <p class="word-details">{{ word_details.freq }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <span class="text-grey-700">NUMBER OF SENTENCES</span>
+                            <p class="word-details">{{ sentence_count.count }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <span class="text-grey-700">NUMBER OF FILMS</span>
+                            <p class="word-details">{{ film_count }} / 60</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- initialize space for word objects -->
+
+            <!-- *****  graph bar  ***** -->
+            {% for datax in freq_by_year_x %}
+                <div class="freq_by_year_x" data-freq-year-x="{{ datax }}"></div>
+            {% endfor %}
+            {% for datay in freq_by_year_y %}
+                <div class="freq_by_year_y" data-freq-year-y="{{ datay }}"></div>
+            {% endfor %}
+
+            <!-- *****  graph pie 1  ***** -->
+            {% for films in genre_crime %}
+                <div class="film_crime" data-crime="{{ films }}"></div>
+            {% endfor %}
+            {% for films in genre_comedy %}
+                <div class="film_comedy" data-comedy="{{ films }}"></div>
+            {% endfor %}
+            {% for films in genre_drama %}
+                <div class="film_drama" data-drama="{{ films }}"></div>
+            {% endfor %}
+
+            <!-- *****  graph pie 2  ***** -->
+            {% for sex in female_sex %}
+                <div class="female" data-female="{{ sex }}"></div>
+            {% endfor %}
+            {% for sex in male_sex %}
+                <div class="male" data-male="{{ sex }}"></div>
+            {% endfor %}            
+
+            <!-- Detail Graphs -->
+            <div class="graph mt-6 text-center">
+                <div class="row">
+                    <div class="col-xl-6 col-xs-12">
+                        <div id="bar-graph"></div>
+                    </div>
+
+                    <div style="position: relative;" class="col-xl-3 col-xs-12">
+                        <div id="pie-graph1"></div>
+                        <div style="" class="legenary">
+                            <table class="film-graph">
+                                <tr>
+                                    <td>
+                                        <span style="background-color: #2f855a" class="rect-color"></span>Comedy:&nbsp;&nbsp;
+                                    </td>
+                                    <td class="font-thin">
+                                        {% for films in genre_comedy %}
+                                        <span class="more-details">{{ films }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="font-thin text-right">
+                                        {{ comedy_percent|floatformat:2 }} %
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <span style="background-color: #c53030" class="rect-color"></span>Crime/Horror:&nbsp;&nbsp;
+                                    </td>    
+                                    <td class="font-thin">
+                                        {% for films in genre_crime %}
+                                            <span class="more-details">{{ films }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="font-thin text-right">
+                                        {{ crime_percent|floatformat:2 }} %
+                                    </td>
+                                </tr>    
+
+                                <tr>
+                                    <td>
+                                        <span style="background-color: #2b6cb0" class="rect-color"></span>Drama:&nbsp;&nbsp;
+                                    </td>
+                                    <td class="font-thin">
+                                        {% for films in genre_drama %}
+                                            <span class="more-details">{{ films }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="font-thin text-right">
+                                        {{ drama_percent|floatformat:2 }} %
+                                    </td>
+                                </tr>                                                                                            
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="position: relative;" class="col-xl-3 col-xs-12">
+                        <div id="pie-graph2"></div>
+                        <div style="" class="legenary">
+                            <table class="genre-graph">
+                                <tr>
+                                    <td>
+                                        <span style="background-color: #f687b3" class="rect-color"></span>Female:&nbsp;&nbsp;
+                                    </td>
+                                    <td class="font-thin">
+                                        {% for genre in female_sex %}
+                                            <span class="more-details">{{ genre }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="font-thin text-right">
+                                        {{ female_percent|floatformat:2 }} %
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <span style="background-color: #63b3ed" class="rect-color"></span>Male:&nbsp;&nbsp;
+                                    </td>
+                                    <td class="font-thin">
+                                        {% for genre in male_sex %}
+                                            <span class="more-details">{{ genre }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="font-thin text-right">
+                                        {{ male_percent|floatformat:2 }} %
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <!-- End graph -->
+            <hr class="divider">
+            <!-- Taping Section -->
+                <!-- Tab panes -->
+                <div class="tab-content mt-6">
+                    <div role="tabpanel" class="tab-pane in active" id="sentence">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-4">
+                                <!-- Start Filter -->
+                                <div class="handle-position">
+                                    <div class="sticky">
+                                        <div class="filter">
+                                            <form id="filter_form" method="get" action="{% url 'search:details' word_orth.orth %}">
+                                                <input type="text" class="form-control" id="query2" name="query" hidden value="{{ word_orth.orth }}">
+                                                <input type="text" class="form-control" name="formsets_option" hidden value="contains">
+                                                <input type="text" class="form-control" name="verb_option" hidden value="{{ word_orth.tag }}">
+                                                <input type="text" class="form-control" name="jyutping" hidden value="{{ word_orth.pron }}">
+
+                                              <div class="FilterPanel">
+                                                <div class="FilterPanelTitle"><strong>Actor</strong></div>
+                                                <div class="FilterPanelContent">
+                                                  <div>
+                                                    <div class="FilterPanelLabel">Name</div>
+                                                    <div class="mt-1">
+                                                      <select class="Select" name="actor" onchange="document.getElementById('filt_btn').click()">
+                                                        <option value="all">Any</option>
+                                                        {% for actor in filter.actors %}
+                                                        <option {% if actor.id == actorr.id  %} selected="selected" {% endif %}
+                                                                value="{% if actor.id != actorr.id  %}{{ actor.id }}{% else %}{{ actorr.id }}{% endif %}">
+                                                            {{ actor.name_en }}/{{ actor.name_zh }} ({{ actor.code }})
+                                                        </option>
+                                                        {% endfor %}
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                    <div class="FilterPanelLabel">Gender</div>
+                                                    <div class="mt-1">
+                                                      <select class="Select" name="gender" onchange="document.getElementById('filt_btn').click()">
+                                                              <option value="all">Any</option>
+                                                                {% if genderr == '0' %}
+                                                              <option value="0" selected>Female</option>
+                                                                {% else %}
+                                                                <option value="0">Female</option>
+                                                                {% endif %}
+
+                                                                {% if genderr == '1' %}
+                                                              <option value="1" selected>Male</option>
+                                                                {% else %}
+                                                              <option value="1">Male</option>
+                                                                {% endif %}
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                    <div class="FilterPanelLabel">Age</div>
+                                                    <div class="mt-1">
+                                                      <select class="Select" name="age" onchange="document.getElementById('filt_btn').click()">
+                                                          <option value="all">Any</option>
+                                                          {% if agee == '0' %}
+                                                          <option value="0" selected>Adult</option>
+                                                          {% else %}
+                                                          <option value="0">Adult</option>
+                                                          {% endif %}
+
+                                                            {% if agee == '1' %}
+                                                          <option value="1" selected>Child</option>
+                                                          {% else %}
+                                                          <option value="1">Child</option>
+                                                          {% endif %}
+
+                                                            {% if agee == '2' %}
+                                                          <option value="2" selected>Teenager</option>
+                                                          {% else %}
+                                                          <option value="2">Teenager</option>
+                                                          {% endif %}
+
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="mt-4">
+                                                <div class="FilterPanel">
+                                                  <div class="FilterPanelTitle"><strong>Film</strong></div>
+                                                  <div class="FilterPanelContent">
+                                                    <div>
+                                                      <div class="FilterPanelLabel">Name</div>
+                                                      <div class="mt-1">
+                                                        <select class="Select" name="film" onchange="document.getElementById('filt_btn').click()">
+                                                            <option value="all">Any</option>
+                                                            {% for film in filter.films %}
+                                                                <option
+                                                                  {% if film.id == filmm.id %} selected {% endif %}
+                                                                  value="{% if film.id != filmm.id %}{{ film.id }}{% else %}{{ filmm.id }}{% endif %}">
+                                                                  {{ film.name_en }}/{{ film.name_zh }} ({{ film.year }})
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                      </div>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                      <div class="FilterPanelLabel">Genre</div>
+                                                      <div class="mt-1">
+                                                        <select class="Select" name="genre" onchange="document.getElementById('filt_btn').click()">
+                                                          <option value="all">Any</option>
+                                                            {% if genree == '0' %}
+                                                            <option value="0" selected>Comedy</option>
+                                                          {% else %}
+                                                            <option value="0">Comedy</option>
+                                                          {% endif %}
+
+                                                            {% if genree == '1' %}
+                                                            <option value="1" selected>Crime/Horror</option>
+                                                          {% else %}
+                                                            <option value="1">Crime/Horror</option>
+                                                          {% endif %}
+
+                                                            {% if genree == '2' %}
+                                                            <option value="2" selected>Drama</option>
+                                                          {% else %}
+                                                            <option value="2">Drama</option>
+                                                          {% endif %}
+
+                                                        </select>
+                                                      </div>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                      <div class="FilterPanelLabel">Year</div>
+                                                      <div class="mt-1">
+                                                        <div class="flex items-center">
+                                                          <div class="mr-2 text-right w-12">from</div>
+                                                          <select class="Select" name="from" onchange="document.getElementById('filt_btn').click()">
+                                                              <option value="all">Any</option>
+                                                              {% for year_from in from_to_year %}
+                                                                <option
+                                                                  {% if year_from == frommm %} selected {% endif %}
+                                                                  value="{% if year_from != frommm %}{{ year_from }}{% else %}{{ frommm }}{% endif %}">
+                                                                  {{ year_from }}
+                                                                </option>
+                                                              {% endfor %}
+                                                          </select>
+                                                        </div>
+                                                        <div class="flex items-center mt-1">
+                                                          <div class="mr-2 text-right w-12">to</div>
+                                                          <select class="Select" name="to" onchange="document.getElementById('filt_btn').click()">
+                                                              <option value="all">Any</option>
+                                                              {% for year_to in from_to_year %}
+                                                                <option
+                                                                  {% if year_to == tooo %} selected {% endif %}
+                                                                  value="{% if year_to != tooo %}{{ year_to }}{% else %}{{ tooo }}{% endif %}">
+                                                                  {{ year_to }}
+                                                                </option>
+                                                              {% endfor %}
+                                                          </select>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            <input type="submit" id="filt_btn" hidden>
+                                            </form>
+                                            <form id="filter_form" method="get" action="{% url 'search:details' word_orth.orth %}">
+                                                <input type="text" class="form-control" id="query2" name="query" hidden>
+                                                <input type="text" class="form-control" id="query3" name="query" hidden>
+                                                <select name="formsets_option" class="form-control" hidden>
+                                                    <option id="formsets_option3" value=""></option>
+                                                </select>
+                                                <select name="verb_option" class="form-control" hidden>
+                                                    <option id="verb_option3" value=""></option>
+                                                </select>
+                                                <div class="mt-2">
+                                                <input class="text-decoration-none" type="submit" id="filt_btn" style="color: #c53030; margin-left: 10px; background-color: transparent; border: none; cursor: pointer" value="Clear Filter">
+                                              </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Filter -->
+                            </div>
+
+                            <!-- Body of search of corpus page -->
+                            {% if sentences.paginator.count != None %}
+                            <div class="col-lg-9 col-md-8">
+                                <span class="record-number">Showing
+                                    {% if sentences.number == 1 %}
+                                        {{sentences.number}} to
+                                        {% if sentences.paginator.count < 20 %}
+                                            {{ sentences.paginator.count }}
+                                        {% else %}
+                                            {{sentences.number|mul:20}}
+                                        {% endif %}
+                                    {% else %}
+                                        {{sentences.number|sub:1|mul:20|add:1}} to
+                                        {% if sentences.paginator.count < 20 %}
+                                            {{ sentences.paginator.count }}
+                                        {% else %}
+                                            {{sentences.number|mul:20}}
+                                        {% endif %}
+                                    {% endif %}
+                                    of {{ sentences.paginator.count }} records</span>
+                                {% include 'search/pager_details.html' %}
+                                {% for sentence in sentences %}
+                                <div class="sentence-details mt-6">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td class="td-counter">{{ sentences.start_index|add:forloop.counter0 }}.</td>
+                                                <td>
+                                                    <table class="w-full">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="font-medium w-12 pr-8">
+                                                                <strong>Actor:</strong>
+                                                            </td>
+                                                            {% for actor in filter.actors %}
+                                                                {% if actor.id == sentence.actor_id %}
+                                                                    <td>
+                                                                        {{ actor.name_en }} / {{ actor.name_zh }} ({{ actor.code }})
+                                                                        [{% if actor.gender == 0 %}
+                                                                                female
+                                                                            {% else %}
+                                                                                male
+                                                                            {% endif %}
+                                                                            {% if actor.age == 0 %}
+                                                                                adult
+                                                                            {% elif actor.age == 1 %}
+                                                                                child
+                                                                            {% else %}
+                                                                                teenager
+                                                                            {% endif %}]
+                                                                    </td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            <td class="align-top w-32" rowspan="2">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="font-medium w-12 pr-8">
+                                                                <strong>Film:</strong>
+                                                            </td>
+                                                            {% for film in filter.films %}
+                                                                {% if film.id == sentence.film_id %}
+                                                                <td>
+                                                                    {{ film.name_en }} / {{ film.name_zh }} ({{ film.year }}) @
+                                                                    {{ sentence.converter_time_start }} - {{ sentence.converter_time_end }}
+                                                                    [{{ sentence.media_code }}]
+                                                                </td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="mt-3">
+                                                        <div class="text-lg">{{ sentence.orth }}</div>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <div class="Annotation">
+                                                            <div class="flex flex-wrap ml">
+                                                                <div class="row">
+                                                                    {% for orth, tag, pron in sentence.annot_str.context %}
+                                                                    <div class="orth-package col-xs-12">
+                                                                        <div class="col-xs-2">
+                                                                            {% if orth != '' %}
+                                                                            <a class="text-blue-700 char_orth" href="{% url 'search:details' orth %}?query={{ orth }}&formsets_option=contains&verb_option={{ tag }}&jyutping={{ pron }}">
+                                                                                <span class="text-lg">{{ orth }}</span>
+                                                                            </a>
+                                                                            {% else %}
+                                                                            <a class="text-blue-700 char_orth" href="{% url 'search:details' '㧬' %}?query={{ '㧬' }}&formsets_option=contains&verb_option={{ tag }}&jyutping={{ pron }}">
+                                                                                <span class="text-lg">{{ orth }}</span>
+                                                                            </a>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div class="col-xs-2">
+                                                                            {% if pron != '-' %}
+                                                                                <span class="annot-func">{{ pron }}</span>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div style="display: inline-block" class="col-xs-2">
+                                                                            {% if tag != 'Pu' %}
+                                                                                <span class="annot-func text-grey-700">{{ tag }}</span>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% endfor %}
+                                {% include 'search/pager_details.html' %}
+                            </div>
+                            {% else %}
+                                <p>No results were found. Please adjust the search criteria and try again.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- This script for creating bar -->
+    <script type="text/javascript">
+        let freq_by_year_x = $(".freq_by_year_x"), freq_by_year_y = $(".freq_by_year_y");
+        let freq_year_x_list = [], freq_year_y_list = [];
+
+        for (x of freq_by_year_x) {
+            freq_year_x_list.push(x.dataset.freqYearX)
+        }
+        for (y of freq_by_year_y) {
+            freq_year_y_list.push(y.dataset.freqYearY)
+        }
+
+        $(document).ready(function () {
+            let data=[{
+                "type": "bar",
+                "y": freq_year_y_list,
+                "x": freq_year_x_list,
+                "marker": {
+                    "line": {
+                        "color": "#2b6cb0", "width": 8
+                    }
+                },
+                "base": 0,
+                "hovertemplate": "%{value}<br>%{x}",
+                "hoverlabel": {
+                    "bgcolor": "rgb(0,0,0)",
+                    "color": "#FFF"
+                },
+                "name": ""
+            }];
+
+            let layout=
+                {
+                    "title": {
+                        "text": "DISTRIBUTION BY YEAR",
+                        "x": 0.5,
+                        "font": {
+                            "size": 12
+                        }
+                    },
+                    "xaxis": {
+                        "backgroundcolor": "#f00",
+                        "size": 10,
+                        "tickangle": -45,
+                        'fixedrange':true,
+                        'tick0': 0,
+                        'dtick': 1,
+                        "tickwidth": .5,
+                        'ticklen': 10,
+                        'tickcolor': '#DDD'
+                    },
+                    "width": 600,
+                    "height": 400,
+                    "yaxis": {
+                            "type": "linear",
+                            "hoverformat": ".2r",
+                            "zeroline": false,
+                            "gridwidth": 2,
+                            'fixedrange':true,
+                            "nticks": 10,
+                            "dtickrange": ["min", "max"],
+                            "tickwidth": .5,
+                            'ticklen': 5,
+                            'tickcolor': '#DDD'
+                        },
+                    "margin": {
+                      "pad": 15
+                    },
+                    "barmode": "stack",
+                    "bargap": 0.65,
+                    "showLegend": true,
+                    "legend": {
+                        'x': -120,
+                        'y': -100
+                    },
+                    "responsive": true,
+                    "font": {
+                        'size': 11,
+                        'color': "#4a5568"
+                    },              
+                };                   
+            let options = {'showLink': false,'displayModeBar': false};    
+
+            Plotly.newPlot("bar-graph", data, layout, options);
+        })
+    </script>
+
+    <!-- This script for creating film graph -->
+    <!-- Pie graph 1 -->
+    <script type="text/javascript">
+        let crime = $(".film_crime"), comedy = $(".film_comedy"), drama = $(".film_drama");
+        let crime_list = [], comedy_list = [], drama_list = [];
+
+        for (c of crime) {
+            crime_list.push(c.dataset.crime)
+        }
+        for (c of comedy) {
+            comedy_list.push(c.dataset.comedy)
+        }
+        for (d of drama) {
+            drama_list.push(d.dataset.drama)
+        }
+
+        let data_keys;
+
+        $(document).ready(function () {
+            let labels = ['Comedy','Crime/Horror','Drama']
+            let values = [comedy_list[0], crime_list[0], drama_list[0]]
+            let data =
+                [{
+                    "type": "pie",
+                    "labels": labels,
+                    "values": values,
+                    "marker": {
+                        "colors": ["#2f855a", "#c53030", "#2b6cb0"],
+                        "line": {
+                            "width": 2,
+                            "color": "#FFF"
+                        }
+                    },
+                    "texttemplate": ["", "", ""],
+                    "name": "",
+                    "hovertemplate": "%{label}" + "</br></br>" + "%{percent}",
+                    "hoverlabel": {
+                        "bgcolor": "rgb(0,0,0)",
+                        "color": "#FFF",
+                    }
+                }];
+            let layout = {
+                "title": {
+                    "text": "DISTRIBUTION BY GENRE", 
+                    "x": .1, 
+                    "font": {
+                        'size': 12,
+                        'color': "#4a5568"
+                    }
+                },
+                "width": 350,
+                "height": 350,
+                "font": {
+                    'size': 14,
+                    'color': "#000"
+                },
+                "responsive": true,
+                "margin": {
+                    "l": 0,
+                    "r": 130,
+                },
+                "showlegend": false,
+            };
+            let options = {"displayModeBar": false}
+            Plotly.newPlot("pie-graph1",data, layout, options);
+            console.log(data[6])
+        })
+
+    </script>
+
+    <!-- Pie graph 2 -->
+    <script type="text/javascript">
+        let male = $('.male'), female = $('.female');
+        let sex_list = []
+        $(document).ready(function () {
+            for (let i = 0; i < 1; i++) {
+                sex_list.push(female[i].dataset.female);
+                sex_list.push(male[i].dataset.male);
+            }
+            let data=
+            [{
+                "type": "pie",
+                "labels": ["Female", "Male"],
+                "values": sex_list,
+                "marker": {
+                    "colors": ["#f687b3", "#63b3ed"],
+                    "line": {
+                        "width": 2,
+                        "color": "#FFF"
+                    }
+                },
+                "texttemplate": ["", "", ""],
+                "name": "",
+                "hovertemplate": "%{label}" + "</br></br>" + "%{percent}",
+                {#"rotation": 150,#}
+                "hoverlabel": {
+                    "bgcolor": "rgb(0,0,0)",
+                    "color": "#FFF"
+                }                    
+            }];
+            let layout = {
+                "title": {
+                    "text": "DISTRIBUTION BY GENDER",
+                    "x": .1, 
+                    "font": {
+                        'size': 12,
+                        'color': "#4a5568"
+                    }
+                },
+                "width": 350,
+                "height": 350,
+                "font": {
+                    'size': 14,
+                    'color': "#000"
+                },
+                "responsive": true,
+                "margin": {
+                    "l": 0,
+                    "r": 130,
+                },
+                "showlegend": false          
+            };
+            let options = {"displayModeBar": false}
+            Plotly.newPlot("pie-graph2", data, layout, options);
+        })
+    </script>
+    <!-- Filter -->
+    <script>
+        $( document ).ready(function() {
+            document.getElementById('query2').value=document.getElementById('search_btn').value;
+            document.getElementById('formsets_option2').value=document.getElementById('formsets_option').value;
+            document.getElementById('formsets_option2').innerText=document.getElementById('formsets_option').options[document.getElementById('formsets_option').selectedIndex].text;
+            document.getElementById('verb_option2').value=document.getElementById('verb_option').value;
+            document.getElementById('verb_option2').innerText=document.getElementById('verb_option').options[document.getElementById('verb_option').selectedIndex].text;
+
+        });
+        $( document ).ready(function() {
+            document.getElementById('query3').value=document.getElementById('search_btn').value;
+            document.getElementById('formsets_option3').value=document.getElementById('formsets_option').value;
+            document.getElementById('formsets_option3').innerText=document.getElementById('formsets_option').options[document.getElementById('formsets_option').selectedIndex].text;
+            document.getElementById('verb_option3').value=document.getElementById('verb_option').value;
+            document.getElementById('verb_option3').innerText=document.getElementById('verb_option').options[document.getElementById('verb_option').selectedIndex].text;
+
+        });
+    </script>
+
+<script type="text/javascript">
+    let text = $("#text-appearance");
+    let filter_form = $("select")
+
+    $(document).ready(function ()
+    {
+
+        {#for (let i = 0; i < filter_form.length; i++)#}
+        {#{#}
+        {#    filter_form[i].on('change', function () {#}
+        {#        console.log("changed data")#}
+        {#    })#}
+        filter_form.on('change', function () {
+            {#text.text(filter_form.val())#}
+            console.log(this.value)
+        })
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% block title %} {{ profile.user.get_full_name }} Profile {% endblock %}
+
+{% block body %}
+    <div class="profile">
+        <!-- Container -->
+        <div class="container-fluid mt-6">
+            <div class="row">
+                <div class="col-lg-3 col-12">
+                    <!-- User Information -->
+                    <div class="col-12">
+                        <div class="user-profile">
+                            <div class="text-center">
+                                <h4>{{ profile.user.get_full_name }}</h4>
+                                    {% if request.user == profile.user %}
+                                    <span class="profile-list fa fa-gear" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{% url 'accounts:change_password' %}">
+                                            Change your password
+                                        </a>
+                                        <a class="dropdown-item" href="{% url 'accounts:change_name' %}">
+                                            Edit your name
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                <p><strong>username</strong>: {{ profile.user.username }}</p>
+                                <p><strong>email</strong>: {{ profile.user.get_short_name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <form id="filter_form" method="get" action="{% url 'accounts:profile' request.user.username %}">
+                    <!-- Superuser Filtering -->
+                    {% if profile.user.username == request.user.username %}
+                        {% if profile.user.is_superuser %}
+                        <div class="col-12">
+                            {% include 'accounts/filter.html' %}
+                        </div>
+                        {% endif %}
+                        {% if not profile.user.admin %}
+                        <div class="col-12 mt-3 mb-5">
+                              <div class="FilterPanel">
+                                <div class="filter">
+                                    <div class="FilterPanelLabel">
+                                        <div class="FilterPanelTitle"><strong>Search History</strong></div>
+                                        <div class="FilterPanelContent">
+                                            <div class="mt-2">
+                                                <select name="formsets_option" id="formsets_option" class="Select">
+                                                    <option id="contains" value="contains" {% if formsets_option == 'contains' or formsets_option == '' %}selected{% endif %}>contains</option>
+                                                    <option id="start_with" value="start_with" {% if formsets_option == 'start_with' %}selected{% endif %}>start with</option>
+                                                    <option id="is" value="is" {% if formsets_option == 'is' %}selected{% endif %}>is</option>
+                                                    <option id="end_with" value="end_with" {% if formsets_option == 'end_with' %}selected{% endif %}>end with</option>
+                                                </select>
+                                            </div>
+                                            <div class="mt-2">
+                                                <input id="search_btn" type="text" class="form-control"
+                                               onkeyup="if (this.value != ''){document.getElementById('clear').hidden=false} else {document.getElementById('clear').hidden=true}"
+                                               placeholder="search" name="query" value="{{ request.GET.query }}">
+                                            </div>
+                                            <div class="mt-2">
+                                                <select name="verb_option" id="verb_option" class="Select">
+                                                    {% if verb_option == '' %}
+                                                    <option value="" selected>Any POS</option>
+                                                    {% else %}
+                                                    <option value="">Any POS</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Adj' %}
+                                                    <option value="Adj" selected>Adjective</option>
+                                                    {% else %}
+                                                    <option value="Adj">Adjective</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Adv' %}
+                                                    <option value="Adv" selected>Adverb</option>
+                                                    {% else %}
+                                                    <option value="Adv">Adverb</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Asp' %}
+                                                    <option value="Asp" selected>Aspect Marker</option>
+                                                    {% else %}
+                                                    <option value="Asp">Aspect Marker</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Cl' %}
+                                                    <option value="Cl" selected>Classifier</option>
+                                                    {% else %}
+                                                    <option value="Cl">Classifier</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Conj' %}
+                                                    <option value="Conj" selected>Conjunction</option>
+                                                    {% else %}
+                                                    <option value="Conj">Conjunction</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Det' %}
+                                                    <option value="Det" selected>Determiner</option>
+                                                    {% else %}
+                                                    <option value="Det">Determiner</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Idiom' %}
+                                                    <option value="Idiom" selected>Idiom</option>
+                                                    {% else %}
+                                                    <option value="Idiom">Idiom</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Intj' %}
+                                                    <option value="Intj" selected>Interjection</option>
+                                                    {% else %}
+                                                    <option value="Intj">Interjection</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Noun' %}
+                                                    <option value="Noun" selected>Noun</option>
+                                                    {% else %}
+                                                    <option value="Noun">Noun</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Num' %}
+                                                    <option value="Num" selected>Number</option>
+                                                    {% else %}
+                                                    <option value="Num">Number</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Ono' %}
+                                                    <option value="Ono" selected>Onomatopoeia</option>
+                                                    {% else %}
+                                                    <option value="Ono">Onomatopoeia</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Part' %}
+                                                    <option value="Part" selected>Particle</option>
+                                                    {% else %}
+                                                    <option value="Part">Particle</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Prep' %}
+                                                    <option value="Prep" selected>Preposition</option>
+                                                    {% else %}
+                                                    <option value="Prep">Preposition</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Pro' %}
+                                                    <option value="Pro" selected>Pronoun</option>
+                                                    {% else %}
+                                                    <option value="Pro">Pronoun</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Pu' %}
+                                                    <option value="Pu" selected>Punctuation</option>
+                                                    {% else %}
+                                                    <option value="Pu">Punctuation</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'SFP' %}
+                                                    <option value="SFP" selected>Sentence-Final Particle</option>
+                                                    {% else %}
+                                                    <option value="SFP">Sentence-Final Particle</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'Verb' %}
+                                                    <option value="Verb" selected>Verb</option>
+                                                    {% else %}
+                                                    <option value="Verb">Verb</option>
+                                                    {% endif %}
+
+                                                    {% if verb_option == 'X' %}
+                                                    <option value="X" selected>Unclassified</option>
+                                                    {% else %}
+                                                    <option value="X">Unclassified</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                        </div>
+                        {% endif %}
+                        <div class="col-12 mt-3 mb-5">
+                            <div class="filter">
+                                  <div class="FilterPanel">
+                                    <div class="FilterPanelTitle"><strong>Advanced Search</strong></div>
+                                    <div class="FilterPanelContent">
+                                      <div class="mt-3">
+                                        <div class="mt-1">
+                                          <div>
+                                              <input type="radio" name="advanced_search"
+                                                {% if request.GET.advanced_search == '0' %} checked {% endif %}
+                                                {% if request.GET.advanced_search == None %} checked {% endif %}
+                                                 value="0" id="advanced_0">&nbsp;
+                                              <label for="advanced_0">All</label>
+                                          </div>
+                                          <div>
+                                              <input type="radio" name="advanced_search"
+                                                 {% if request.GET.advanced_search == '1' %} checked {% endif %}
+                                                 value="1" id="advanced_1">&nbsp;
+                                              <label for="advanced_1">Main History Search</label>
+                                          </div>
+                                          <div>
+                                              <input type="radio" name="advanced_search"
+                                                 {% if request.GET.advanced_search == '2' %} checked {% endif %}
+                                                 value="2" id="advanced_2">&nbsp;
+                                              <label for="advanced_2">Advanced History Search</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <input type="submit" id="filt_btn" value="Search & Filter" class="btn btn-outline-primary mt-3">
+                            </div>
+                        </div>
+                    {% endif %}
+                    </form>
+                </div>
+                <!-- History -->
+                {% if request.user == profile.user %}
+                    {% if not request.user.is_superuser %}
+                        <!-- Normal User -->
+                        {% include 'accounts/normalUser_view.html' %}
+                    {% else %}
+                        <!-- Admin User -->
+                        {% include 'accounts/admin_view.html' %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% if profile.user.username == request.user.username %}
+            {% if request.user.is_superuser %}
+                {% if all_history.paginator.count >= 100 %}
+                    {% include 'accounts/pager.html' %}
+                {% endif %}
+            {% else %}
+                {% if history_pages.paginator.count >= 100 %}
+                    {% include 'accounts/pager.html' %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+    {{ date }}
+    <script>
+        let general_checkbox = $(".general_checkbox");
+        let clear_button = $(".clear_button");
+        let number_checked = $('#select_number');
+        let all_checkbox = $('#remove_all_history');
+
+        // Remove all or multiple items
+        general_checkbox.change(function(event) {
+            if (general_checkbox.length == $('.general_checkbox:checked').length) {
+                all_checkbox.prop('checked', true)
+            } else {
+                all_checkbox.prop('checked', false)
+            }
+
+            if (event.target.checked == true) {
+                number_checked.text(parseInt(number_checked.text()) + 1)
+                $(this).prop('checked', true)
+            } else {
+                number_checked.text(parseInt(number_checked.text()) - 1)
+                $(this).prop('checked', false)
+            }
+            if (parseInt(number_checked.text()) > 0) {
+                clear_button.removeClass('invisible')
+            } else {
+                clear_button.addClass('invisible')
+            }
+        })
+
+        all_checkbox.change(function (event) {
+            if (event.target.checked == true) {
+                general_checkbox.prop('checked', true)
+                number_checked.text(parseInt(general_checkbox.length))
+                clear_button.removeClass('invisible')
+            } else {
+                general_checkbox.prop('checked', false);
+                number_checked.text(parseInt(0))
+                clear_button.addClass('invisible')
+            }
+        })
+    </script>
+{% endblock %}

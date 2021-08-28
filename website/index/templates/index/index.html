@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} Welcome to Corpus of Mid-20th Century Hong Kong Cantonese {% endblock %}
+
+{% block body %}
+    <div class="index text-center">
+        <div class="container">
+            <div class="index_body">
+                <h4 class="">
+                    <strong>The Corpus of Mid-20th Century Hong Kong Cantonese</strong>
+                </h4>
+                <h4>《二十世紀中期香港粵語語料庫》</h4>
+            </div>
+            <div class="index_img">
+                {% load static %}
+                <img style="max-width: 100%" src="{% static 'index/img/index_img.jpg' %}" />
+            </div>
+            <div class="index_btn">
+                <div>
+                    <a href="{% url 'index:old_version' %}" class="phase btn text-decoration-none">Go to phase 1 <br> since 2012</a>
+                </div>
+                <div>
+                    <a href="{% url 'index:home' %}" class="phase btn text-decoration-none">Go to phase 2 <br> since 2020</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %} List of characters {% endblock %}
+
+
+
+{% block body %}
+    <div class="words">
+        <div class="container">
+            <!-- Add Breadcrumbs Navigation Section -->
+            <div class="breads">
+                <h5 class="heading mt-6 leading-7">
+                    <strong>List of Characters</strong>
+                </h5>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">List of characters</li>
+                    </ol>
+                </nav>
+            </div>
+            <hr>
+            <!-- Words Table Section -->
+            <div class="common-words">
+                <p class="mt-1">Below is a list of the 100 most common characters (of 759724) in the corpus.</p>
+                <table class="Table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Character</th>
+                            <th>Frequency</th>
+                            <th>Percentage</th>
+                            <th>Cumulative %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for char, freq, percent, cum in context %}
+                            {% if forloop.counter <= 100 %}
+                            <tr>
+                                <td>
+                                    {{ forloop.counter0|add:1 }}
+                                </td>
+                                <td>
+                                    {{ char }}
+                                </td>
+                                <td>
+                                    {{ freq }}
+                                </td>
+                                <td>
+                                    {{ percent|floatformat:2 }} %
+                                </td>
+                                <td>
+                                    {{ cum|floatformat:2 }} %
+                                </td>                                
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>               
+            </div>
+        </div>
+    </div>
+{% endblock %}

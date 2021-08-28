@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+
+{% block body %}
+    <div class="corpus-search-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="corpus-search">
+                        <h2 class="text-center">The Corpus of Mid-20th Century Hong Kong Cantonese (Phase 2)</h2>
+                        <form action="{% url 'index:home' %}" method="get" class="form-inline justify-content-center">
+                            <div class="Panel">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search the corpus..." name="query">
+                                    <input class="btn" type="submit" value="Search">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <!-- Welcome corpus section -->
+    <div class="greeting_corpus">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="font-medium text-xl"><strong>Welcome to the Corpus</strong></h4>
+                    <p class="leading-7 mt-6">
+                        In 2012, with the support of an internal research grant from the Education University of Hong Kong (the then Hong Kong Institute of Education), we developed <a target="_blank" href="{% url 'index:old_version' %}">the first phase of The Corpus of Mid-20th Century Hong Kong Cantonese.</a> The corpus was designed to provide language data for studying the earlier stage of Hong Kong Cantonese.
+                    </p>
+                    <p class="leading-7 mt-6">
+                    In 2013, we obtained a research grant under the Early Career Scheme (ECS) from the Research Grants Council to further develop the second phase of our corpus. Altogether 60 movies were transcribed, with about <strong>770,000</strong> character tokens. The movies our project team selected are balanced in terms of genre and speakers (including gender) so that the corpus data can represent the Cantonese language spoken in the mid-20th century.
+                    </p>
+                    <br>
+                    <a href="{% url 'intro:intro' %}" class="btn text-decoration-none">Read More</a>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        {% load static %}
+                        <img style="max-width: 100%" src="{% static 'index/img/corpus.jpg' %}"/>
+                    </div>
+                    <div class="home-info">
+                        <p>The <a target="_blank" href="https://tla.mpi.nl/tools/tla-tools/elan/">ELAN</a> software from <a target="_blank" href="https://www.mpi.nl/">Max Planck Institute</a> was used to transcribe the second phase of the corpus.</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <!-- Features Section -->
+    <div class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feat text-center">
+                        <svg class="fill-current h-12 mx-auto stroke-0 text-gray-400 w-12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.59 13.41A1.98 1.98 0 012 12V7a5 5 0 015-5h4.99c.53 0 1.04.2 1.42.59l8 8a2 2 0 010 2.82l-8 8a2 2 0 01-2.82 0l-8-8zM20 12l-8-8H7a3 3 0 00-3 3v5l8 8 8-8zM7 8a1 1 0 110-2 1 1 0 010 2z"></path>
+            </svg>
+                        <h6 class="mt-6"><strong>Part-of-Speech Tagging</strong></h6>
+                        <p class="mt-6">The transcribed utterances in the corpus have been segmented and each word has been assigned a part-of-speech tag.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feat text-center">
+<svg class="fill-current h-12 mx-auto stroke-0 text-gray-400 w-12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.41 16H18a2 2 0 002-2 1 1 0 012 0 4 4 0 01-4 4H5.41l2.3 2.3a1 1 0 01-1.42 1.4l-4-4a1 1 0 010-1.4l4-4a1 1 0 111.42 1.4L5.4 16zM6 8a2 2 0 00-2 2 1 1 0 01-2 0 4 4 0 014-4h12.59l-2.3-2.3a1 1 0 111.42-1.4l4 4a1 1 0 010 1.4l-4 4a1 1 0 01-1.42-1.4L18.6 8H6z"></path>
+            </svg>
+                        <h6 class="mt-6"><strong>Jyutping Romanisation</strong></h6>
+                        <p class="mt-6">To enhance the searchability and usefulness of the corpus data, Chinese characters have been romanised into Jyutping.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feat text-center">
+<svg class="fill-current h-12 mx-auto stroke-0 text-gray-400 w-12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16.32 14.9l5.39 5.4a1 1 0 01-1.42 1.4l-5.38-5.38a8 8 0 111.41-1.41zM10 16a6 6 0 100-12 6 6 0 000 12z"></path>
+            </svg>
+                        <h6 class="mt-6"><strong>Flexible Search</strong></h6>
+                        <p class="mt-6">An advanced search interface has been developed to enable users to search by full-text, or by specific token patterns using a combination of Chinese characters, Jyutping romanisation and POS tag.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

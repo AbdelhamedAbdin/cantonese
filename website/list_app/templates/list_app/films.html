@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %} List of films {% endblock %}
+
+{% block body %}
+    <div class="words">
+        <div class="container">
+            <!-- Add Breadcrumbs Navigation Section -->
+            <div class="breads">
+                <h5 class="heading mt-6 leading-7">
+                    <strong>List of films</strong>
+                </h5>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">List of Films</li>
+                    </ol>
+                </nav>
+            </div>
+            <hr>
+            <!-- Words Table Section -->
+            <div class="common-words">
+                <p class="mt-1">Below is a list of the 60 films in the corpus.</p>
+                <table class="Table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Name</th>
+                            <th>Genre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rank, film in films %}
+                            {% if rank < 100 %}
+                            <tr>
+                                <td>
+                                    {{ film.year }}
+                                </td>
+                                <td>
+                                    {{ film.name_en }}/{{ film.name_zh }}
+                                </td>
+                                <td>
+                                    {% if film.genre == 0 %}
+                                        Comedy
+                                    {% elif film.genre == 1 %}
+                                        Crime/Horror
+                                    {% else %}
+                                        Drama
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

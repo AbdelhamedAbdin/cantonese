@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %} List of actors {% endblock %}
+
+{% block body %}
+    <div class="words">
+        <div class="container">
+            <!-- Add Breadcrumbs Navigation Section -->
+            <div class="breads">
+                <h5 class="heading mt-6 leading-7">
+                    <strong>List of words</strong>
+                </h5>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">List of characters</li>
+                    </ol>
+                </nav>
+            </div>
+            <hr>
+            <!-- Words Table Section -->
+            <div class="common-words">
+                <p class="mt-1">Below is a list of the 336 actors in the corpus.</p>
+                <table class="Table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rank, actor in actors %}
+                            {% if rank <= 200 %}
+                            <tr>
+                                <td>
+                                    {{ actor.code }}
+                                </td>
+                                <td>
+                                    {{ actor.name_en }}/{{ actor.name_zh }}
+                                </td>
+                                <td>
+                                    {% if actor.gender == 1 %}
+                                        Male
+                                    {% else %}
+                                        Female
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if actor.age == 0 %}
+                                        Adult
+                                    {% elif actor.age == 1 %}
+                                        Child
+                                    {% else %}
+                                        Teenager
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

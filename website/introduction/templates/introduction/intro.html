@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% block title %} Introduction {% endblock %}
+
+{% block body %}
+    <div class="intro">
+        <div class="container">
+            <!-- Add Breadcrumbs Navigation Section -->
+            <div class="breads">
+                <h5 class="heading mt-6 leading-7">
+                    <strong>Introduction</strong>
+                </h5>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Introduction</li>
+                    </ol>
+                </nav>
+            </div>
+            <hr>
+            <!-- Taping Section -->
+            <div class="intro-tap">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#intro" role="tab" data-toggle="tab">Introduction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#feature" role="tab" data-toggle="tab">New Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#statistic" role="tab" data-toggle="tab">Basic Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#knowledgements" role="tab" data-toggle="tab">Acknowledgements</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Intro information -->
+                    <div role="tabpanel" class="tab-pane in active" id="intro">
+                        <h6 class="mt-6">Welcome to the second phase of The Corpus of Mid-20th Century Hong Kong Cantonese.
+<br><br>
+                            In 2012, with the support of an internal research grant from the Education University of Hong Kong (the then Hong Kong Institute of Education), we developed <a>the first phase of The Corpus of Mid-20th Century Hong Kong Cantonese</a>. The corpus was designed to provide language data for studying the earlier stage of Hong Kong Cantonese.
+<br><br>
+                        The corpus data was collected by transcribing the dialogues of Cantonese movies produced in Hong Kong between the 1940s and the 1970s. 21 movies were transcribed and 14 of them were made available online.
+<br><br>
+                            In 2013, we obtained <a>a research grant</a> under the Early Career Scheme (ECS) from the Research Grants Council to further develop the second phase of our corpus. Altogether 60 movies were transcribed, with about 770,000 character tokens. The movies our project team selected are balanced in terms of genre and speakers (including gender) so that the corpus data can represent the Cantonese language spoken in the mid-20th century.
+<br><br>
+                        In this website, you can find more information about the corpus, such as the list of movies and speakers; some basic information about the corpus, a user guide of the search engine.
+<br><br>
+                        We are still working on some technical issues and will periodically make updates to the site. Please stay tuned.
+<br><br>
+                        We hope you enjoy using our corpus and find the data useful. If you have any queries, please contact us at <a>hkcc@eduhk.hk.</a></h6>
+                        <br>
+                        <h6><strong>Andy Chin</strong></h6>
+                        <p>
+                            Principal Investigator
+                            <br>
+                            The Corpus of Mid-20th Century Hong Kong Cantonese
+                        </p>
+                    </div>
+                    <!-- feature information -->
+                    <div role="tabpanel" class="tab-pane mt-6" id="feature">
+                        <p>The following is a list of new features added to the data of the second phase of the corpus:</p>
+                        <ol>
+                            <li>
+                                Words are segmented and assigned a parts-of-speech (POS) tag. In other words, the corpus now can distinguish between 「一」 as a numeral and as an adverb;
+                            </li>
+                            <li>
+                                Jyutping and POS tags will be provided together with the transcription text;
+                            </li>
+                            <li>
+                                The transcription was conducted with the ELAN freeware developed by Max Planck Institute for Psycholinguistics. With ELAN, we were able to find the exact time point where the utterance was made in the movies. Therefore, besides textual transcriptions, users can also view the video segments of their search results. This can provide more modal information such as gesture, speed, prosody that is associated with the utterance.
+                            </li>
+                        </ol>
+                    </div>
+                    <!-- statistics information -->
+                    <div role="tabpanel" class="tab-pane mt-6" id="statistic">
+                        <p>
+The second phase of the corpus has around 5,200 character types, totaling around 770,000 tokens.
+<br><br>
+It is interesting to note that the 50 most frequent characters already cover 50% of the corpus data.
+<br><br>
+To have a coverage of 90% and 95%, the numbers of highest frequency characters are 500 and 840 respectively.
+<br><br>
+This information is shown in the figures below:
+                        </p>
+                        <div class="row">
+                            {% load static %}
+                            <div class="col-md-6">
+                                <img class="img-responsive" src="{% static 'index/img/char_graph.jpg' %}"/>
+                            </div>
+                            <div class="col-md-6">
+                                <img class="img-responsive" src="{% static 'index/img/tokens_graph.jpg' %}"/>
+                            </div>
+                            <div class="col-md-6">
+                                <img class="img-responsive" src="{% static 'index/img/tokens_genre.jpg' %}"/>
+                            </div>
+                            <div class="col-md-6">
+                                <img class="img-responsive" src="{% static 'index/img/tokens_gender.jpg' %}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- knowledgement information -->
+                    <div role="tabpanel" class="tab-pane mt-6" id="knowledgements">
+                        <p>
+I would like to extend my thanks to the following organizations, colleagues and project team members (in alphabetical order) who provided support and made significant contributions to the development of the corpus.
+                        </p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="leading leading-7 mt-6">
+                                    Sources of Funding
+                                </p>
+                                <p>The construction of The Corpus of Mid-20th Century Hong Kong Cantonese (Phase One and Two) has been supported by four research grants:</p>
+                                <ol>
+                                    <li>Spoken Corpus Construction and Linguistic Analysis of Mid-20th Century Cantonese (Internal Research Grant, The Hong Kong Institute of Education, Project No.: RG41/2010-2011)</li>
+                                    <li>A Preliminary Linguistic Analysis of Mid-20th Century Cantonese from a Corpus-based Approach (Internal Research Grant, The Hong Kong Institute of Education, Project No.: RG62/12-13R)</li>
+                                    <li>Linguistic Analysis of Mid-20th Century Hong Kong Cantonese by Constructing an Annotated Spoken Corpus (Early Career Scheme, Research Grants Council, Hong Kong SAR Government, Project No.: ECS859713)</li>
+                                    <li>Initiatives in Digital Humanities (Central Reserve for Strategic Development, The Education University of Hong Kong)</li>
+                                </ol>
+                            </div>
+                            <div class="col-md-12">
+                                <p class="leading leading-7 mt-6">
+                                    Advisors
+                                </p>
+                                <ul>
+                                    <li>Cheung Hintat</li>
+                                    <li>Leung Chung Sum</li>
+                                    <li>Benjamin T'sou</li>
+                                </ul>
+                            </div>
+                            <!-- list groups -->
+                            <div class="col-md-8">
+                                <div class="list-groups">
+                                    <p class="leading leading-7 mt-6">Project Team Members</p>
+                                    <ul class="col-md-6 fl-left">
+                                        <h6><strong>Phase One:</strong></h6>
+                                        <li>William Chong</li>
+                                        <li>Ka Po Chow</li>
+                                        <li>Wing Ng</li>
+                                        <li>Chris Sun</li>
+                                        <li>Byron Wong</li>
+                                        <li>Sam Wong</li>
+                                    </ul>
+                                    <ul class="col-md-6 fl-left">
+                                        <h6><strong>Phase Two:</strong></h6>
+                                        <li>Calvin Lai</li>
+                                        <li>Lau Tin Yau</li>
+                                        <li>Lo Tin King</li>
+                                        <li>Crono Tse</li>
+                                        <li>Alistair Tweed</li>
+                                        <li>Byron Wong</li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="list-groups">
+                                    <p class="leading leading-7 mt-6">Other Assistance</p>
+                                    <p>
+                                        The following people provided assistance and advice on the intellectual property issues of the corpus:
+                                    </p>
+                                    <li>Stephen Chow</li>
+                                    <li>Lemon Kwan</li>
+                                    <li>Lui Tai-lok</li>
+                                    <li>Stephen Shin</li>
+                                    <li>Dickson Yeung</li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

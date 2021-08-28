@@ -1,0 +1,55 @@
+<nav aria-label="...">
+{% load mathfilters %}
+    <ul class="pagination">
+        <li class="page-item {% if not words.has_previous %} disabled {% endif %}">
+            <a href="{{ prev_url }}" class="page-link">Previous</a>
+        </li>
+
+        {% with lt_num=sentences.number|sub:1 add_num=7 %}
+        {% if not lt_num < add_num %}
+            <li class="page-item">
+                <a class="page-link" href="{{ request.get_full_path }}&page_numberr=1">
+                    1
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link disabled">...</a>
+            </li>
+        {% endif %}
+        {% endwith %}
+
+        {% for n in words.paginator.page_range %}
+            {% if words.number == n %}
+                <li class="page-item active">
+                    <a class="page-link" href="{{ request.get_full_path }}&page_numberr={{ n }}">
+                        {{ n }}
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            {% elif n > words.number|add:-4 and n < words.number|add:4 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ request.get_full_path }}&page_numberr={{ n }}">
+                        {{ n }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% with gt_num=words.paginator.count|intdiv:20|add:1 sub_num=sentences.number %}
+        {% if not gt_num|sub:sub_num < 7 %}
+        <li class="page-item">
+            <a class="page-link disabled">...</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="{{ request.get_full_path }}&page_numberr={{ words.paginator.count|intdiv:20|add:1 }}">
+                {{ words.paginator.count|intdiv:20|add:1 }}
+            </a>
+        </li>
+        {% endif %}
+        {% endwith %}
+
+        <li class="page-item {% if not words.has_next %} disabled {% endif %}">
+            <a class="page-link" href="{{ next_url }}">Next</a>
+        </li>
+    </ul>
+</nav>

@@ -1,0 +1,146 @@
+<div class="col-lg-9 col-12">
+    {% if history_pages.paginator.count != None %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="clear_all fl-left">
+            <input class="global_checkbox" type="checkbox" name="remove_all_history" id="remove_all_history">
+            <label for="remove_all_history" class="ml">Remove All</label>
+        </div>
+        <div class="fl-right">
+            <a style="color:#FFF" type="button" data-toggle="modal" data-target=".remove_items" class="clear_button btn btn-danger invisible">Remove</a>
+        </div>
+    </form>
+    {% else %}
+        <p>No search or filter found!</p>
+    {% endif %}
+    <div class="clearfix"></div>
+    <div class="mt-6"></div>
+    {% if history_pages.paginator.count != None %}
+        <div class="text-left selected_number">
+            <span id="select_number">0</span> of {{ history_pages.paginator.count }} selected
+        </div>
+    {% endif %}
+    <form class="form-remove" method="post" action="{% url 'accounts:remove_history' %}">
+        {% csrf_token %}
+            {% if history_pages.paginator.count != None %}
+            <section class="center">
+                <div class="table__wrapper">
+                    <table id="table_id" class="display table table-striped table-bordered nowrap">
+                        <thead class="text-center">
+                            <tr>
+                                <th scope="col">Remove</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Text</th>
+                                <th scope="col">POS</th>
+                                <th scope="col">Trashed</th>
+                                <th scope="col">Researched</th>
+                                <th scope="col">Search</th>
+                            </tr>
+                        </thead>
+                        <tbody class="dashboard-history">
+                            {% for history in history_pages %}
+                                <tr>
+                                    <td class="td-pd-size" data-header="Remove">
+                                        <input name="remove_multiple_items" data-value="{{ history.id }}" value="{{ history.id }}" class="general_checkbox" type="checkbox" id="remove_all_history">
+                                    </td>
+                                    <td data-header="Username" class="td-pd-size">{{ history.user.username }}</td>
+                                    <td data-header="Date" class="td-pd-size">{{ history.history_time|date:'Y/n/j' }}</td>
+                                    <td data-header="Action" class="text-center">
+                                        <ul class="list-style-responsive">
+                                            {% for split in history.action_spliter %}
+                                                {% if split != " " %}
+                                                    <li class="text-responsive history_objects">{{ split }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td data-header="Text" class="text-center td-pd-size">
+                                        <ul class="list-style-responsive">
+                                            {% for split in history.text_spliter %}
+                                                {% if split != " " %}
+                                                    <li class="text-responsive history_objects">{{ split }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td data-header="POS" class="td-pd-size">
+                                        <ul class="list-style-responsive">
+                                            {% for split in history.verb_spliter %}
+                                                {% if split != " " %}
+                                                    <li class="text-center text-responsive history_objects">
+                                                        {% if split == "POS" %}
+                                                            Any POS
+                                                        {% else %}
+                                                            {{ split }}
+                                                        {% endif %}
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td data-header="Trashed" class="td-pd-size">
+                                        {% if history.deleted_history == True %}
+                                            <span class="ml ml-4 fa fa-trash" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ history.user.get_full_name }} removed this item from his search history"></span>
+                                        {% endif %}
+                                    </td>
+                                    <td data-header="Researched" class="td-pd-size">
+                                        {% if history.advanced_search == True %}
+                                            {% if history.user.is_superuser != request.user.is_superuser %}
+                                                <span class="ml ml-3 fa fa-star" data-container="body_two" data-toggle="popover" data-placement="top" data-content="{{ history.user.get_full_name }} searched for this item again"></span>
+                                            {% else %}
+                                                <span class="ml ml-3 fa fa-star" data-container="body_two" data-toggle="popover" data-placement="top" data-content="you searched for this item again"></span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td data-header="Search" class="td-pd-size">
+                                        <button type="button" class="history_id dash-icon" data-historyId="#to_main_history{{ history.id }}">
+                                            <span class="fa fa-search"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            {% endif %}
+        <input type="submit" name="test" class="remove_item_btn" hidden>
+    </form>
+    <!-- connect with main history -->
+    {% for history in history_pages %}
+    <form method="post" hidden action="{% url 'accounts:redo_to_main_history' %}">
+        {% csrf_token %}
+        {% for h in history.text_spliter %}
+            <input type="text" name="query" value="{{ h }}" hidden>
+        {% endfor %}
+        {% for h in history.verb_spliter %}
+            <input type="text" name="verb_option" value="{{ h }}" hidden>
+        {% endfor %}
+        {% for h in history.action_spliter %}
+            <input type="text" name="formsets_option" value="{{ h }}" hidden>
+        {% endfor %}
+        <input name="to_main_history" type="submit" hidden id="to_main_history{{ history.id }}">
+    </form>
+    {% endfor %}
+    <div class="modal fade remove_items" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Warning!!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Do you want to remove these history items?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="btn-submit" onclick="$('.remove_item_btn').click()" class="btn btn-outline-danger">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

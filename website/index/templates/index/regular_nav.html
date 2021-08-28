@@ -1,0 +1,82 @@
+<nav class="d-none d-sm-none d-md-none d-lg-block navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <div class="navigation-links">
+            <!-- Brand -->
+            <div class="fl-left brand">
+                <a href="{% url 'index:home' %}" class="home lead text-decoration-none">The Corpus of Mid-20th Century Hong Kong Cantonese (Phase 2)</a>
+            </div>
+            <!-- Search-bar -->
+            {% if request.user.is_authenticated %}
+            <div class="search-bar">
+                <form method="get" action="{% url 'search:search' %}">
+                    <div class="search-nav">
+                        <input type="text" name="query" placeholder="Search" />
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+                {% if request.user.is_authenticated %}
+                <div class="logging">
+                    <a class="text-decoration-none" href="{% url 'accounts:profile' user.slug %}?page_number=1&advanced_search=0">
+                        {% if user.get_full_name %}
+                            {{ user.get_full_name }}
+                        {% else %}
+                            My Account
+                        {% endif %}
+                    </a>
+                    <span> | </span>
+                    <a class="text-decoration-none" href="{% url 'accounts:logout' %}?next={% url 'accounts:login' %}">Logout</a>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            <div class="clearfix"></div>
+            <!-- toggle button -->
+            <div class="fl-right btn-toggle">
+                <button class="navbar-toggler fl-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <!-- Tabs navigation-bar -->
+            <div class="taping">
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active text-decoration-none" href="{% url 'index:home' %}" role="tab">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'intro:intro' %}" role="tab">Introduction</a>
+                        </li>
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'search:search' %}" role="tab">Search the corpus</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'list_app:words' %}" role="tab">List of words</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'list_app:characters' %}" role="tab">List of characters</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'list_app:actors' %}" role="tab">List of actors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'list_app:films' %}" role="tab">List of films</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'index:old_version' %}" role="tab">Go to phase 1</a>
+                        </li>
+                        {% if not request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'accounts:login' %}" role="tab">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'accounts:register' %}" role="tab">Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

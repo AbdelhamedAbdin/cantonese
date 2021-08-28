@@ -1,0 +1,117 @@
+{% if not request.user.is_superuser %}
+    {% if history_pages.paginator.count != None %}
+    <nav class="mt-6" aria-label="...">
+        {% load mathfilters %}
+        <ul class="pagination">
+            <li class="page-item not-active {% if not prev_url %} disabled {% endif %}">
+                <a href="{{ prev_url }}" class="page-link">Previous</a>
+            </li>
+
+            {% with lt_num=history_pages.number|sub:1 add_num=7 %}
+            {% if not lt_num < add_num %}
+                <li class="page-item not-active">
+                    <a class="page-link" href="{{ request.get_full_path }}&page_number=1">
+                        1
+                    </a>
+                </li>
+                <li class="page-item not-active">
+                    <a class="page-link disabled">...</a>
+                </li>
+            {% endif %}
+            {% endwith %}
+
+            {% for n in history_pages.paginator.page_range %}
+                {% if history_pages.number == n %}
+                    <li class="page-item active">
+                        <a class="page-link" href="{{ request.get_full_path }}&page_number={{ n }}">
+                            {{ n }}
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                {% elif n > history_pages.number|add:-4 and n < history_pages.number|add:4 %}
+                    <li class="page-item not-active">
+                        <a class="page-link" href="{{ request.get_full_path }}&page_number={{ n }}">
+                            {{ n }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% with gt_num=history_pages.paginator.count|intdiv:100|add:1 sub_num=history_pages.number %}
+            {% if not gt_num|sub:sub_num < 7 %}
+            <li class="page-item">
+                <a class="page-link disabled">...</a>
+            </li>
+            <li class="page-item not-active">
+                <a class="page-link" href="{{ request.get_full_path }}&page_number={{ history_pages.paginator.count|intdiv:100|add:1 }}">
+                    {{ history_pages.paginator.count|intdiv:100|add:1 }}
+                </a>
+            </li>
+            {% endif %}
+            {% endwith %}
+
+            <li class="page-item not-active{% if not next_url %} disabled {% endif %}">
+                <a class="page-link" href="{{ next_url }}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+{% else %}
+    {% if all_history.paginator.count != None %}
+    <nav class="mt-6" aria-label="...">
+        {% load mathfilters %}
+        <ul class="pagination">
+            <li class="page-item not-active {% if not prev_url %} disabled {% endif %}">
+                <a href="{{ prev_url }}" class="page-link">Previous</a>
+            </li>
+
+            {% with lt_num=all_history.number|sub:1 add_num=7 %}
+            {% if not lt_num < add_num %}
+                <li class="page-item not-active">
+                    <a class="page-link" href="{{ request.get_full_path }}&page_number=1">
+                        1
+                    </a>
+                </li>
+                <li class="page-item not-active">
+                    <a class="page-link disabled">...</a>
+                </li>
+            {% endif %}
+            {% endwith %}
+
+            {% for n in all_history.paginator.page_range %}
+                {% if all_history.number == n %}
+                    <li class="page-item active">
+                        <a class="page-link" href="{{ request.get_full_path }}&page_number={{ n }}">
+                            {{ n }}
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                {% elif n > all_history.number|add:-4 and n < all_history.number|add:4 %}
+                    <li class="page-item not-active">
+                        <a class="page-link" href="{{ request.get_full_path }}&page_number={{ n }}">
+                            {{ n }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% with gt_num=all_history.paginator.count|intdiv:100|add:1 sub_num=all_history.number %}
+            {% if not gt_num|sub:sub_num < 7 %}
+            <li class="page-item">
+                <a class="page-link disabled">...</a>
+            </li>
+            <li class="page-item not-active">
+                <a class="page-link" href="{{ request.get_full_path }}&page_number={{ all_history.paginator.count|intdiv:100|add:1 }}">
+                    {{ all_history.paginator.count|intdiv:100|add:1 }}
+                </a>
+            </li>
+            {% endif %}
+            {% endwith %}
+
+            <li class="page-item not-active{% if not next_url %} disabled {% endif %}">
+                <a class="page-link" href="{{ next_url }}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+{% endif %}
